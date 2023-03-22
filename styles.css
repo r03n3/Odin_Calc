@@ -1,0 +1,21 @@
+#buttonsNumRow1, #buttonsNumRow2, #buttonsNumRow3, #buttonsNumRow4{
+    display: flex;
+}
+
+#zero,#one,#two,#three,#four,#five,#six,#seven,#eight,#nine,#sum,#sub,#mul,#div{
+    height: 30px;
+    width: 30px;
+    background-color: gray;
+    color: black;
+}
+
+#maincontainer{
+    height: 1200px;
+    width: 900px;
+    background-color: beige;
+}
+
+#display{
+    background-color: bisque;
+    color: black;
+}
