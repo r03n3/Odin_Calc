@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Titel</title>
-    <script src="./js.js"></script>
+    <script src="./js.js" defer></script>
     <link rel="stylesheet" type="text/css" href="./styles.css">
   </head>
   <body>
@@ -13,31 +13,31 @@
       <div id="buttonsContain">
         <div id="buttonsContainNum">
           <div id="buttonsNumR1">
-            <button id="seven" class="number">7</button>
-            <button id="eight" class="number">8</button>
-            <button id="nine" class="number">9</button>
-            <button id="sum" class="operand">+</button>
+            <button id="seven" class="number" data-value="7">7</button>
+            <button id="eight" class="number" data-value="8">8</button>
+            <button id="nine" class="number" data-value="9">9</button>
+            <button id="sum" class="operand" data-value="+">+</button>
           </div>
           <div id="buttonsNumR2">
-            <button id="four" class="number">4</button>
-            <button id="five" class="number">5</button>
-            <button id="six" class="number">6</button>
-            <button id="sub" class="operand">-</button>
+            <button id="four" class="number" data-value="4">4</button>
+            <button id="five" class="number" data-value="5">5</button>
+            <button id="six" class="number" data-value="6">6</button>
+            <button id="sub" class="operand" data-value="-">-</button>
           </div>
           <div id="buttonsNumR3">
-            <button id="one" class="number">1</button>
-            <button id="two" class="number">2</button>
-            <button id="three" class="number">3</button>
-            <button id="mul" class="operand">*</button>
+            <button id="one" class="number" data-value="1">1</button>
+            <button id="two" class="number" data-value="2">2</button>
+            <button id="three" class="number" data-value="3">3</button>
+            <button id="mul" class="operand" data-value="*">*</button>
           </div>
           <div id="buttonsNumR4">
-            <button id="equals" class="number">=</button>
-            <button id="zero" class="number">0</button>
-            <button id="dot" class="number">.</button>
-            <button id="div" class="operand">/</button>
+            <button id="equals" class="equals" data-value="=">=</button>
+            <button id="zero" class="number" data-value="0">0</button>
+            <button id="dot" class="dot" data-value=".">.</button>
+            <button id="div" class="operand" data-value="/">/</button>
           </div>
           <div id="buttonsNumR5">
-            <button id="clear" class="operand">C</button>
+            <button id="clear" class="clear" data-value="clear">C</button>
           </div>
         </div>
       </div>
