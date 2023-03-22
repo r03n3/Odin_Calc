@@ -35,7 +35,7 @@ function calculator(){
  let valueOpStore;
  const buttonsNum = document.querySelectorAll('.number');
  const buttonsOp =  document.querySelectorAll('.operand');
- const equals = document.querySelectorAll('');
+ const equals = document.querySelector('.equals');
  buttonsNum.forEach(buttonNum =>{
     buttonNum.addEventListener('click', () =>{
         if(numcount===0){
@@ -53,20 +53,28 @@ function calculator(){
  })
  buttonsOp.forEach(buttonOp =>{
     buttonOp.addEventListener('click', () =>{
-        let valueOP = buttonOp.getAttribute('data-value');
-        valueOpStore = valueOP;
+        let valueOp = buttonOp.getAttribute('data-value');
+        valueOpStore = valueOp;
         firstOp=display;
         numcount=0;
-        if(opcount>0){
-            display=operate(firstOp,display,operand);
+        if (opcount>0 && numcount===0){
+            display=operate(firstOp,display,valueOpStore);
             disp(display);
-            opcount=0;
-        }      
+          }
+        opcount++;      
     })
  })
- button
-    disp(display);
-
+ equals.addEventListener('click', () => {
+    if(opcount===0){
+        disp(display)
+        numcount=0;
+    }else{
+        display=operate(firstOp,display,valueOpStore);
+        opcount=0;
+        numcount=0;
+        disp(display);
+    }
+ })
 }
 
 function operate(num1, num2, operand){
@@ -85,3 +93,4 @@ function operate(num1, num2, operand){
     }
    return result;
 }
+calculator();

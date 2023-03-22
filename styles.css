@@ -16,7 +16,7 @@
     flex-basis: 100%;
   }
 
-.number, .operand, .dot, .clear {
+.number, .operand, .dot, .clear, .equals {
   background-color: olive;
   color: black;
   flex-basis: 25%;
