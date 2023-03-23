@@ -36,17 +36,18 @@ function calculator(){
  const buttonsNum = document.querySelectorAll('.number');
  const buttonsOp =  document.querySelectorAll('.operand');
  const equals = document.querySelector('.equals');
+ const clear = document.querySelector('.clear');
  buttonsNum.forEach(buttonNum =>{
     buttonNum.addEventListener('click', () =>{
         if(numcount===0){
             value = buttonNum.getAttribute('data-value');
             numcount++;
-            display=parseInt(value);
+            display=Math.round((parseInt(value) + Number.EPSILON) * 100) / 100;
             disp(display);
         }
         else{
             value = buttonNum.getAttribute('data-value');
-            display = display*10 + parseInt(value);
+            display = Math.round((display*10 + parseInt(value)+ Number.EPSILON) * 100) / 100;
             disp(display);
         }
     })
@@ -55,13 +56,19 @@ function calculator(){
     buttonOp.addEventListener('click', () =>{
         let valueOp = buttonOp.getAttribute('data-value');
         valueOpStore = valueOp;
-        firstOp=display;
+        
         numcount=0;
-        if (opcount>0 && numcount===0){
+
+        if (opcount === 0){
+            firstOp=display;
+        }
+        if (opcount>0){
             display=operate(firstOp,display,valueOpStore);
+            firstOp=display;
             disp(display);
           }
-        opcount++;      
+        opcount++;
+           
     })
  })
  equals.addEventListener('click', () => {
