@@ -26,6 +26,10 @@ function disp(num){
  dis.innerHTML = num;
 }
 
+function clearCalc(){
+    disp(0);
+}
+
 function calculator(){
  let display=0;
  let value=0;
@@ -65,6 +69,7 @@ function calculator(){
         if (opcount>0){
             display=operate(firstOp,display,valueOpStore);
             firstOp=display;
+            display=Math.round((display+ Number.EPSILON) * 100) / 100;
             disp(display);
           }
         opcount++;
@@ -79,9 +84,17 @@ function calculator(){
         display=operate(firstOp,display,valueOpStore);
         opcount=0;
         numcount=0;
+        display=Math.round((display+ Number.EPSILON) * 100) / 100;
         disp(display);
     }
  })
+clear.addEventListener('click', () => {
+    clearCalc();
+    firstOp=0;
+    opcount=0;
+    numcount=0;
+    display=0;
+})
 }
 
 function operate(num1, num2, operand){
