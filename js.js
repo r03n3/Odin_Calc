@@ -69,7 +69,9 @@ function calculator(){
         if (opcount>0){
             display=operate(firstOp,display,valueOpStore);
             firstOp=display;
-            display=Math.round((display+ Number.EPSILON) * 100) / 100;
+            if(typeof display === 'number'){
+                display=Math.round((display+ Number.EPSILON) * 100) / 100;
+            }
             disp(display);
           }
         opcount++;
@@ -84,7 +86,9 @@ function calculator(){
         display=operate(firstOp,display,valueOpStore);
         opcount=0;
         numcount=0;
-        display=Math.round((display+ Number.EPSILON) * 100) / 100;
+        if(typeof display === 'number'){
+            display=Math.round((display+ Number.EPSILON) * 100) / 100;
+        }
         disp(display);
     }
  })
