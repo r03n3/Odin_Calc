@@ -37,40 +37,52 @@ function calculator(){
  let firstOp=0;
  let opcount=0;
  let valueOpStore;
+ let dotpressed = false;
+
  const buttonsNum = document.querySelectorAll('.number');
  const buttonsOp =  document.querySelectorAll('.operand');
  const equals = document.querySelector('.equals');
  const clear = document.querySelector('.clear');
- buttonsNum.forEach(buttonNum =>{
-    buttonNum.addEventListener('click', () =>{
-        if(numcount===0){
-            value = buttonNum.getAttribute('data-value');
-            numcount++;
-            display=Math.round((parseInt(value) + Number.EPSILON) * 100) / 100;
+ const dot = document.querySelector('.dot');
+
+ buttonsNum.forEach(buttonNum => {
+    buttonNum.addEventListener('click', () => {
+      if (numcount === 0) {
+        value = buttonNum.getAttribute('data-value');
+        numcount++;
+        display = parseFloat(value);
+        disp(display);
+      } else {
+        value = buttonNum.getAttribute('data-value');
+        if (value === '.') {
+          if (!dotpressed) {
+            dotpressed = true;
+            display = display.toString() + '.';
             disp(display);
+          }
+        } else {
+          display = parseFloat(display.toString() + value.toString());
+          disp(display);
         }
-        else{
-            value = buttonNum.getAttribute('data-value');
-            display = Math.round((display*10 + parseInt(value)+ Number.EPSILON) * 100) / 100;
-            disp(display);
-        }
+      }
     })
- })
+  });
  buttonsOp.forEach(buttonOp =>{
     buttonOp.addEventListener('click', () =>{
         let valueOp = buttonOp.getAttribute('data-value');
         valueOpStore = valueOp;
-        
         numcount=0;
 
         if (opcount === 0){
             firstOp=display;
+            dotpressed = false;
         }
         if (opcount>0){
             display=operate(firstOp,display,valueOpStore);
             firstOp=display;
+            dotpressed = false;
             if(typeof display === 'number'){
-                display=Math.round((display+ Number.EPSILON) * 100) / 100;
+                display=Math.round((display+ Number.EPSILON) * 100) / 100; //Round displayed number to 2 decimals to avoid an overflowing display
             }
             disp(display);
           }
@@ -78,30 +90,48 @@ function calculator(){
            
     })
  })
+
  equals.addEventListener('click', () => {
     if(opcount===0){
         disp(display)
         numcount=0;
+        dotpressed=false;
     }else{
         display=operate(firstOp,display,valueOpStore);
         opcount=0;
         numcount=0;
+        dotpressed=false;
         if(typeof display === 'number'){
             display=Math.round((display+ Number.EPSILON) * 100) / 100;
         }
         disp(display);
     }
  })
+
 clear.addEventListener('click', () => {
     clearCalc();
     firstOp=0;
     opcount=0;
     numcount=0;
     display=0;
+    dotpressed = false;
 })
+
+dot.addEventListener('click', () => {
+    if (dotpressed) {
+      disp(display);
+    } else {
+      dotpressed = true;
+      display = display.toString() + '.';
+      disp(display);
+    }
+  })
+
 }
 
 function operate(num1, num2, operand){
+    num1 = parseFloat(num1);
+    num2 = parseFloat(num2);
     let result;
     if (operand==='+'){
         result=sum(num1, num2);
@@ -117,4 +147,9 @@ function operate(num1, num2, operand){
     }
    return result;
 }
+
+
+
 calculator();
+
+disp(0);
