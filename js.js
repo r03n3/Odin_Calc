@@ -116,19 +116,19 @@ function keyOp(key) {
 
 function keyEquals() {
   if(opcount===0){
-      disp(display)
-      numcount=0;
-      dotpressed=false;
-  }else{
-      display=operate(firstOp,display,valueOpStore);
-      opcount=0;
-      numcount=0;
-      dotpressed=false;
-      if(typeof display === 'number'){
-          display=Math.round((display+Number.EPSILON) * 100) / 100;
-      }
-      disp(display);
-  }
+    disp(display)
+    numcount=0;
+    dotpressed=false;
+}else{
+    display=operate(firstOp,display,valueOpStore);
+    opcount=0;
+    numcount=0;
+    dotpressed=false;
+    if(typeof display === 'number'){
+        display=Math.round((display+ Number.EPSILON) * 100) / 100;
+    }
+    disp(display);
+}
 }
 
 function keyClear() {
@@ -139,18 +139,6 @@ function keyClear() {
   display=0;
   dotpressed = false;
 }
-
-function keyDot() {
-  if (dotpressed) {
-    disp(display);
-  } else {
-    dotpressed = true;
-    display = display.toString() + '.';
-    disp(display);
-  }
-}
-
-
 
  buttonsNum.forEach(buttonNum => {
     buttonNum.addEventListener('click', () => {
@@ -174,6 +162,7 @@ function keyDot() {
       }
     })
   });
+  
  buttonsOp.forEach(buttonOp =>{
     buttonOp.addEventListener('click', () =>{
         let valueOp = buttonOp.getAttribute('data-value');
