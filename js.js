@@ -44,6 +44,111 @@ function calculator(){
  const equals = document.querySelector('.equals');
  const clear = document.querySelector('.clear');
  const dot = document.querySelector('.dot');
+ document.addEventListener('keydown', keyLogic);
+
+ function keyLogic(event) {
+  const key = event.key;
+  const allowedKeys = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9', '.', '/', '*', '-', '+', '='];
+
+  if (allowedKeys.includes(key)) {
+    event.preventDefault();
+
+    if (key === 'Enter') {
+      keyEquals();
+    } else if (key === '=') {
+      keyEquals();
+    } else if (key === '/') {
+      keyOp('/', 'divide');
+    } else if (key === '*') {
+      keyOp('*', 'multiply');
+    } else if (key === '-') {
+      keyOp('-', 'subtract');
+    } else if (key === '+') {
+      keyOp('+', 'add');
+    } else {
+      keyNum(key);
+    }
+  }
+}
+
+function keyNum(key) {
+  if (numcount === 0) {
+    value = key;
+    numcount++;
+    display = parseFloat(value);
+    disp(display);
+  } else {
+    value = key;
+    if (value === '.') {
+      if (!dotpressed) {
+        dotpressed = true;
+        display = display.toString() + '.';
+        disp(display);
+      }
+    } else {
+      display = parseFloat(display.toString() + value.toString());
+      disp(display);
+    }
+  }
+}
+
+function keyOp(key, opType) {
+  let valueOp = key;
+  valueOpStore = valueOp;
+  numcount=0;
+  if (opcount === 0){
+      firstOp=display;
+      dotpressed = false;
+  }
+  if (opcount>0){
+      display=operate(firstOp,display,valueOpStore);
+      firstOp=display;
+      dotpressed = false;
+      if(typeof display === 'number'){
+          display=Math.round((display+ Number.EPSILON) * 100) / 100; //Round displayed number to 2 decimals to avoid an overflowing display
+      }
+      disp(display);
+    }
+  opcount++;
+}
+
+function keyEquals() {
+  if(opcount===0){
+      disp(display)
+      numcount=0;
+      dotpressed=false;
+  }else{
+      display=operate(firstOp,display,valueOpStore);
+      opcount=0;
+      numcount=0;
+      dotpressed=false;
+      if(typeof display === 'number'){
+          display=Math.round((display+Number.EPSILON) * 100) / 100;
+      }
+      disp(display);
+  }
+}
+
+function keyClear() {
+  clearCalc();
+  firstOp=0;
+  opcount=0;
+  numcount=0;
+  display=0;
+  dotpressed = false;
+}
+
+function keyDot() {
+  if (dotpressed) {
+    disp(display);
+  } else {
+    dotpressed = true;
+    display = display.toString() + '.';
+    disp(display);
+  }
+}
+
+
 
  buttonsNum.forEach(buttonNum => {
     buttonNum.addEventListener('click', () => {
