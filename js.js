@@ -48,7 +48,7 @@ function calculator(){
 
  function keyLogic(event) {
   const key = event.key;
-  const allowedKeys = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9', '.', '/', '*', '-', '+', '='];
+  const allowedKeys = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9', '.', '/', '*', '-', '+', '=', 'c'];
 
   if (allowedKeys.includes(key)) {
     event.preventDefault();
@@ -65,6 +65,8 @@ function calculator(){
       keyOp('-', 'subtract');
     } else if (key === '+') {
       keyOp('+', 'add');
+    } else if (key === 'c') {
+      keyClear();
     } else {
       keyNum(key);
     }
@@ -92,7 +94,7 @@ function keyNum(key) {
   }
 }
 
-function keyOp(key, opType) {
+function keyOp(key) {
   let valueOp = key;
   valueOpStore = valueOp;
   numcount=0;
@@ -234,23 +236,22 @@ dot.addEventListener('click', () => {
 
 }
 
-function operate(num1, num2, operand){
-    num1 = parseFloat(num1);
-    num2 = parseFloat(num2);
-    let result;
-    if (operand==='+'){
-        result=sum(num1, num2);
-    }
-    if (operand==='-'){
-        result=sub(num1, num2);
-    }
-    if (operand==='*'){
-        result=mul(num1, num2);
-    }
-    if (operand==='/'){
-        result=div(num1, num2);
-    }
-   return result;
+function operate(num1, num2, operator) {
+  switch (operator) {
+    case '+':
+      return num1 + num2;
+    case '-':
+      return num1 - num2;
+    case '*':
+      return num1 * num2;
+    case '/':
+      if (num2 === 0) {
+        return "ERROR!ALARM!";
+      }
+      return num1 / num2;
+    default:
+      return 0;
+  }
 }
 
 
