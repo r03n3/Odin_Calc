@@ -45,10 +45,11 @@ function calculator(){
  const clear = document.querySelector('.clear');
  const dot = document.querySelector('.dot');
  document.addEventListener('keydown', keyLogic);
+  const backspaceButton = document.querySelector('.backspace');
 
  function keyLogic(event) {
   const key = event.key;
-  const allowedKeys = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9', '.', '/', '*', '-', '+', '=', 'c'];
+  const allowedKeys = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9', '.', '/', '*', '-', '+', '=', 'c', 'Backspace'];
 
   if (allowedKeys.includes(key)) {
     event.preventDefault();
@@ -67,11 +68,92 @@ function calculator(){
       keyOp('+', 'add');
     } else if (key === 'c') {
       keyClear();
-    } else {
+    } else if (key === 'Backspace') {
+      backspace();
+    }
+      else {
       keyNum(key);
     }
   }
 }
+
+function backspace(){
+  const str = display.toString();
+  if (numcount === 1) {
+    // if the last typed in value is a number
+    if (str.length === 1) {
+      // if the number is a single digit number
+      display = 0;
+      numcount = 0;
+      disp(display);
+    } else {
+      // if the number has multiple digits and check for a . in special cases
+      if(str.slice(-1)==="." || str.slice(-2, -1)==="."){
+        dotpressed = !dotpressed;
+      } 
+      display = parseFloat(str.slice(0, -1));
+      disp(display);
+    }
+  }
+  else if (opcount === 1) {
+    // if the last typed in value is an operator
+    opcount = 0;
+    valueOpStore = null;
+    disp(firstOp);
+  } else if (opcount > 1) {
+    // if there are multiple operators typed in
+    opcount -= 1;
+    display = firstOp;
+    valueOpStore = null;
+    for (let i = 0; i < opcount; i++) {
+      const opButton = document.querySelector(`[data-value="${valueOpStore}"]`);
+      valueOpStore = opButton.getAttribute('data-value');
+      display = operate(firstOp, display, valueOpStore);
+      firstOp = display;
+    }
+    disp(display);
+  }
+}
+
+
+backspaceButton.addEventListener('click', () => {
+  const str = display.toString();
+  if (numcount === 1) {
+    // if the last typed in value is a number
+    if (str.length === 1) {
+      // if the number is a single digit number
+      display = 0;
+      numcount = 0;
+      disp(display);
+    } else {
+      // if the number has multiple digits, including a check if a number is a decimal
+      if(str.slice(-1)==="." || str.slice(-2, -1)==="."){
+        dotpressed = !dotpressed;
+      }
+      console.log(str.slice(-2, -1));
+      display = parseFloat(str.slice(0, -1));
+      disp(display);
+    }
+  }
+  else if (opcount === 1) {
+    // if the last typed in value is an operator
+    opcount = 0;
+    valueOpStore = null;
+    disp(firstOp);
+  } else if (opcount > 1) {
+    // if there are multiple operators typed in
+    opcount -= 1;
+    display = firstOp;
+    valueOpStore = null;
+    for (let i = 0; i < opcount; i++) {
+      const opButton = document.querySelector(`[data-value="${valueOpStore}"]`);
+      valueOpStore = opButton.getAttribute('data-value');
+      display = operate(firstOp, display, valueOpStore);
+      firstOp = display;
+    }
+    disp(display);
+  }
+});
 
 function keyNum(key) {
   if (numcount === 0) {
@@ -140,7 +222,7 @@ function keyClear() {
   dotpressed = false;
 }
 
- buttonsNum.forEach(buttonNum => {
+ buttonsNum.forEach(buttonNum => { // number button logic
     buttonNum.addEventListener('click', () => {
       if (numcount === 0) {
         value = buttonNum.getAttribute('data-value');
@@ -163,7 +245,7 @@ function keyClear() {
     })
   });
   
- buttonsOp.forEach(buttonOp =>{
+ buttonsOp.forEach(buttonOp =>{ //operator button logic
     buttonOp.addEventListener('click', () =>{
         let valueOp = buttonOp.getAttribute('data-value');
         valueOpStore = valueOp;
@@ -187,7 +269,7 @@ function keyClear() {
     })
  })
 
- equals.addEventListener('click', () => {
+ equals.addEventListener('click', () => { // equal button logic
     if(opcount===0){
         disp(display)
         numcount=0;
@@ -204,6 +286,7 @@ function keyClear() {
     }
  })
 
+ //clear the display and all variables that need to be reset
 clear.addEventListener('click', () => {
     clearCalc();
     firstOp=0;
@@ -213,6 +296,7 @@ clear.addEventListener('click', () => {
     dotpressed = false;
 })
 
+// . logic for decimal numbers
 dot.addEventListener('click', () => {
     if (dotpressed) {
       disp(display);
@@ -225,6 +309,7 @@ dot.addEventListener('click', () => {
 
 }
 
+//operator logics for arithmetic operations
 function operate(num1, num2, operator) {
   switch (operator) {
     case '+':

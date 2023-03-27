@@ -16,7 +16,7 @@
     flex-basis: 100%;
   }
 
-.number, .operand, .dot, .clear, .equals {
+.number, .operand, .dot, .clear, .equals, .backspace {
   background-color: olive;
   color: black;
   flex-basis: 25%;
@@ -62,7 +62,7 @@ justify-content: center;
 margin-top: 10%;
 }
 
-#clear {
+#clear, #backspace {
     flex-basis: 25%;
     aspect-ratio: 1/1;
     max-width: 71px;
